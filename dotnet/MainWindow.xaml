@@ -1,0 +1,134 @@
+<Window x:Class="AudibleRemote.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Audible Remote"
+        Width="360" Height="360"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent"
+        ResizeMode="NoResize" Topmost="True" ShowInTaskbar="True"
+        WindowStartupLocation="CenterScreen"
+        UseLayoutRounding="True" SnapsToDevicePixels="True"
+        MouseLeftButtonDown="Root_MouseLeftButtonDown">
+
+    <Window.Resources>
+        <!-- Flat, translucent-on-hover icon button (transport + chrome) -->
+        <Style x:Key="IconBtn" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="bg" Background="{TemplateBinding Background}"
+                                CornerRadius="100">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bg" Property="Background" Value="#33FFFFFF"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="bg" Property="Background" Value="#55FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Filled circular play/pause button -->
+        <Style x:Key="PlayBtn" TargetType="Button">
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Foreground" Value="#111317"/>
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="bg" Background="White" CornerRadius="100">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bg" Property="Background" Value="#EDEDED"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="bg" Property="Background" Value="#D6D6D6"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <!-- Rounded card; dark base shows through when no cover art -->
+    <Border CornerRadius="18" ClipToBounds="True" Background="#15181D">
+        <Grid>
+            <!-- Cover art fills the whole card -->
+            <Rectangle>
+                <Rectangle.Fill>
+                    <ImageBrush x:Name="CoverBrush" Stretch="UniformToFill"/>
+                </Rectangle.Fill>
+            </Rectangle>
+
+            <!-- Top scrim so the close/pin glyphs stay legible over bright covers -->
+            <Rectangle VerticalAlignment="Top" Height="56" IsHitTestVisible="False">
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Offset="0" Color="#88000000"/>
+                        <GradientStop Offset="1" Color="#00000000"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+
+            <!-- Bottom scrim behind title/chapter/controls -->
+            <Rectangle VerticalAlignment="Bottom" Height="180" IsHitTestVisible="False">
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Offset="0.0" Color="#00000000"/>
+                        <GradientStop Offset="0.45" Color="#77000000"/>
+                        <GradientStop Offset="1.0" Color="#F0000000"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+
+            <!-- Window chrome: pin + close -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top"
+                        Margin="0,6,6,0">
+                <Button Style="{StaticResource IconBtn}" Width="30" Height="30"
+                        Click="Pin_Click" ToolTip="Keep on top">
+                    <TextBlock x:Name="PinGlyph" FontFamily="Segoe MDL2 Assets"
+                               Text="&#xE840;" FontSize="14"/>
+                </Button>
+                <Button Style="{StaticResource IconBtn}" Width="30" Height="30"
+                        Click="Close_Click" ToolTip="Close">
+                    <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE8BB;" FontSize="12"/>
+                </Button>
+            </StackPanel>
+
+            <!-- Title, chapter, transport -->
+            <StackPanel VerticalAlignment="Bottom" Margin="20,0,20,18">
+                <TextBlock x:Name="TitleText" Text="Audible Remote" Foreground="White"
+                           FontSize="17" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                <TextBlock x:Name="ChapterText" Text="Nothing playing" Foreground="#CCFFFFFF"
+                           FontSize="12.5" Margin="0,2,0,14" TextTrimming="CharacterEllipsis"/>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Style="{StaticResource IconBtn}" Width="46" Height="46"
+                            Click="Prev_Click" ToolTip="Previous">
+                        <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE892;" FontSize="20"/>
+                    </Button>
+                    <Button Style="{StaticResource PlayBtn}" Width="58" Height="58" Margin="14,0"
+                            Click="PlayPause_Click" ToolTip="Play / Pause">
+                        <TextBlock x:Name="PlayPauseGlyph" FontFamily="Segoe MDL2 Assets"
+                                   Text="&#xE768;" FontSize="24"/>
+                    </Button>
+                    <Button Style="{StaticResource IconBtn}" Width="46" Height="46"
+                            Click="Next_Click" ToolTip="Next">
+                        <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE893;" FontSize="20"/>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

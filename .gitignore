@@ -1,0 +1,16 @@
+# Python venv (users create their own)
+.venv/
+
+# Personal library data + cached cover art — never publish (privacy + copyright)
+Covers/
+covers.json
+chapters.json
+
+# Local per-user UI state
+window.json
+
+# Build / temp
+bin/
+obj/
+*.tmp
+*.log
