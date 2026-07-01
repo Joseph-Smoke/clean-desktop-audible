@@ -1,4 +1,4 @@
-# Audible Remote
+# Clean Desktop Audible
 
 A tiny Windows **system-tray audiobook widget**: your current book's HD cover as a
 frameless, resizable, auto-hiding, always-on-top card with transport controls, a

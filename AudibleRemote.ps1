@@ -84,7 +84,7 @@ $winStatePath = Join-Path $PSScriptRoot 'window.json'
 $xaml = @'
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Audible Remote" Width="380" Height="380"
+        Title="Clean Desktop Audible" Width="380" Height="380"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent"
         ResizeMode="NoResize" Topmost="True" ShowInTaskbar="False"
         WindowStartupLocation="CenterScreen" UseLayoutRounding="True" SnapsToDevicePixels="True">
@@ -559,7 +559,7 @@ try {
     if ($h -ne [IntPtr]::Zero) { $notify.Icon = [System.Drawing.Icon]::FromHandle($h) }
 } catch {}
 if (-not $notify.Icon) { try { $notify.Icon = New-Object System.Drawing.Icon((Join-Path $PSScriptRoot 'app.ico')) } catch {} }
-$notify.Text = 'Audible Remote'
+$notify.Text = 'Clean Desktop Audible'
 $notify.Visible = $true
 $notify.Add_MouseClick({ param($s, $e) if ($e.Button -eq [System.Windows.Forms.MouseButtons]::Left) { Toggle-Window } })
 $menu = New-Object System.Windows.Forms.ContextMenuStrip
